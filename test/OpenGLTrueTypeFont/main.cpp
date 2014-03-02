@@ -26,6 +26,8 @@ subject to the following restrictions:
 	#include "OpenGLWindow/Win32OpenGLWindow.h"
 #elif defined (__linux)
 	#include "OpenGLWindow/X11OpenGLWindow.h"
+#elif defined __EMSCRIPTEN__
+    #include "OpenGLWindow/GlutOpenGLWindow.h"
 #endif
 
 #include "fontstash.h"

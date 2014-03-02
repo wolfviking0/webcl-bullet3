@@ -122,6 +122,7 @@ BulletGui:
 		btgui/OpenGLWindow/GLRenderToTexture.cpp \
 		btgui/OpenGLWindow/LoadShader.cpp \
 		btgui/OpenGLWindow/TwFonts.cpp \
+		btgui/OpenGLWindow/GlutOpenGLWindow.cpp \
 		-I ./btgui/ -I ./src/ $(DEBUG) -o ./js/BulletGui.o
 
 BulletGwen:
@@ -329,20 +330,20 @@ BulletGpuGuiInitialize:
 			
 BulletBasicInitialize:
 	JAVA_HEAP_SIZE=8096m EMCC_DEBUG=1 $(CXX) \
-		demo/test/OpenCL/BasicInitialize/main.cpp \
+	./test/OpenCL/BasicInitialize/main.cpp \
 		src/clew/clew.c \
 		./js/Bullet3Common.o ./js/Bullet3OpenCL.o \
 		-I ./btgui/ -I ./src/ $(DEBUG) -o ./html/BulletBasicInitialize.html	
 		
 BulletKernelLaunch:
 	JAVA_HEAP_SIZE=8096m EMCC_DEBUG=1 $(CXX) \
-		demo/test/OpenCL/KernelLaunch/main.cpp \
+	./test/OpenCL/KernelLaunch/main.cpp \
 		src/clew/clew.c \
 		./js/Bullet3Common.o ./js/Bullet3OpenCL.o \
 		-I ./btgui/ -I ./src/ -s OPENCL_FORCE_CPU=1 $(DEBUG) -o ./html/BulletKernelLaunch.html			
 	
 BulletParallelPrimitives:
-	$(call chdir,demo/)
+	$(call chdir,./)
 	JAVA_HEAP_SIZE=8096m EMCC_DEBUG=1 ../../webcl-translator/emscripten/emcc \
 		test/OpenCL/ParallelPrimitives/main.cpp \
 		src/clew/clew.c \
@@ -356,7 +357,7 @@ BulletParallelPrimitives:
 		-I ../btgui/ -I ../src/ -s OPENCL_FORCE_CPU=1 $(DEBUG) -o ../html/BulletParallelPrimitives.html
 		
 BulletRadixSortBenchmark:
-	$(call chdir,demo/)
+	$(call chdir,./)
 	JAVA_HEAP_SIZE=8096m EMCC_DEBUG=1 ../../webcl-translator/emscripten/emcc \
 		test/OpenCL/RadixSortBenchmark/main.cpp \
 		src/clew/clew.c \
@@ -370,7 +371,7 @@ BulletRadixSortBenchmark:
 		-I ../btgui/ -I ../src/ -s TOTAL_MEMORY=1024*1024*150 $(DEBUG) -o ../html/BulletRadixSortBenchmark.html	
 		
 BulletBitonicSort:
-	$(call chdir,demo/)
+	$(call chdir,./)
 	JAVA_HEAP_SIZE=8096m EMCC_DEBUG=1 ../../webcl-translator/emscripten/emcc \
 		test/OpenCL/BitonicSort/b3BitonicSort.cpp \
 		test/OpenCL/BitonicSort/main.cpp \

@@ -3,6 +3,8 @@
 
 #ifdef __APPLE__
 #include "OpenGLWindow/MacOpenGLWindow.h"
+#elif __EMSCRIPTEN__
+#include "OpenGLWindow/GlutOpenGLWindow.h"
 #else
 
 #include "GL/glew.h"
