@@ -12,6 +12,17 @@
         act = _ACTION
     end
 
+    -- For emscripten set include
+ 	-- includedirs { "$(EMSCRIPTEN)/system/include", "$(EMSCRIPTEN)/system/lib/libcxxabi/include" }
+	
+	-- configuration { "SharedLib" }
+	-- 	targetextension ".js"
+	
+	-- configuration { "StaticLib" }
+	-- 	targetextension ".js"
+
+	-- configuration { "ConsoleApp" }
+	-- 	targetextension ".html"
 
 	newoption
 	{
