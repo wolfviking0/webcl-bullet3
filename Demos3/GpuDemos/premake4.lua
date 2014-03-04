@@ -65,44 +65,52 @@ function createProject(vendor)
 			"../../btgui/Timing/b3Clock.h",
 		}
 
-	if _OPTIONS["midi"] then
-		if os.is("Windows") then
-			files {"../../btgui/MidiTest/RtMidi.cpp"}
-			links {"winmm"}
-			defines {"__WINDOWS_MM__", "WIN32","B3_USE_MIDI"}
-		end
-	
-		if os.is("Linux") then 
-		end
-	
-		if os.is("MacOSX") then
-			files {"../../btgui/MidiTest/RtMidi.cpp"}
-			links{"CoreAudio.framework", "coreMIDI.framework", "Cocoa.framework"}
-			defines {"__MACOSX_CORE__","B3_USE_MIDI"}
-		end
-	end
-	
-		if os.is("Windows") then 
-			files{  
-				"../../btgui/OpenGLWindow/Win32OpenGLWindow.cpp",
-      	"../../btgui/OpenGLWindow/Win32OpenGLWindow.h",
-      	"../../btgui/OpenGLWindow/Win32Window.cpp",
-      	"../../btgui/OpenGLWindow/Win32Window.h",
+		if _OPTIONS["emscripten"] then
+			files
+			{
+				"../../btgui/OpenGLWindow/GlutOpenGLWindow.h",
+				"../../btgui/OpenGLWindow/GlutOpenGLWindow.cpp",
 			}
-		end
-		if os.is("Linux") then
-			links{"X11"}
-			files {
-				"../../btgui/OpenGLWindow/X11OpenGLWindow.cpp",
-				"../../btgui/OpenGLWindow/X11OpenGLWindows.h"
-			}
-		end
-		if os.is("MacOSX") then
-			links {"Cocoa.framework"}
-			files {
-				"../../btgui/OpenGLWindow/MacOpenGLWindow.h",
-                        	"../../btgui/OpenGLWindow/MacOpenGLWindow.mm",	
-			}
+		else
+			if _OPTIONS["midi"] then
+				if os.is("Windows") then
+					files {"../../btgui/MidiTest/RtMidi.cpp"}
+					links {"winmm"}
+					defines {"__WINDOWS_MM__", "WIN32","B3_USE_MIDI"}
+				end
+			
+				if os.is("Linux") then 
+				end
+			
+				if os.is("MacOSX") then
+					files {"../../btgui/MidiTest/RtMidi.cpp"}
+					links{"CoreAudio.framework", "coreMIDI.framework", "Cocoa.framework"}
+					defines {"__MACOSX_CORE__","B3_USE_MIDI"}
+				end
+			end
+	
+			if os.is("Windows") then 
+				files{  
+					"../../btgui/OpenGLWindow/Win32OpenGLWindow.cpp",
+	      			"../../btgui/OpenGLWindow/Win32OpenGLWindow.h",
+	      			"../../btgui/OpenGLWindow/Win32Window.cpp",
+	      			"../../btgui/OpenGLWindow/Win32Window.h",
+				}
+			end
+			if os.is("Linux") then
+				links{"X11"}
+				files {
+					"../../btgui/OpenGLWindow/X11OpenGLWindow.cpp",
+					"../../btgui/OpenGLWindow/X11OpenGLWindows.h"
+				}
+			end
+			if os.is("MacOSX") then
+				links {"Cocoa.framework"}
+				files {
+					"../../btgui/OpenGLWindow/MacOpenGLWindow.h",
+	                "../../btgui/OpenGLWindow/MacOpenGLWindow.mm",	
+				}
+			end
 		end
 	end
 end

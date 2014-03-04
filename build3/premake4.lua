@@ -64,17 +64,26 @@
 
 	postfix=""
 
-		-- EMSCRIPTEN PATCH --
+	-- EMSCRIPTEN PATCH --
+	newoption
+	{
+		trigger = "emscripten",
+		description = "Use Emscripten settings"
+	}
 
- 		includedirs { "$(EMSCRIPTEN)/system/include", "$(EMSCRIPTEN)/system/lib/libcxxabi/include" }
+	--_OPTIONS["emscripten"] = "1";
+
+	if _OPTIONS["emscripten"] then
+		print("Use Emscripten Options !!!!")
+		includedirs { "$(EMSCRIPTEN)/system/include", "$(EMSCRIPTEN)/system/lib/libcxxabi/include" }
 		targetextension ".js"
 
 		configuration "Debug"
-			buildoptions { "-s CL_PRINT_TRACE=1 -s DISABLE_EXCEPTION_CATCHING=0 -s WARN_ON_UNDEFINED_SYMBOLS=1 -s CL_DEBUG=1 -s CL_GRAB_TRACE=1 -s CL_CHECK_VALID_OBJECT=1" }
+			buildoptions { "-s DLOPEN_SUPPORT=1 -s CL_PRINT_TRACE=1 -s DISABLE_EXCEPTION_CATCHING=0 -s WARN_ON_UNDEFINED_SYMBOLS=1 -s CL_DEBUG=1 -s CL_GRAB_TRACE=1 -s CL_CHECK_VALID_OBJECT=1" }
 		configuration "Release"
-			buildoptions { "-s CL_PRINT_TRACE=0 -s DISABLE_EXCEPTION_CATCHING=1 -s WARN_ON_UNDEFINED_SYMBOLS=1 -s CL_DEBUG=0 -s CL_GRAB_TRACE=0 -s CL_CHECK_VALID_OBJECT=0" }
-
-		-- EMSCRIPTEN PATCH --
+			buildoptions { "-s DLOPEN_SUPPORT=1 -s CL_PRINT_TRACE=0 -s DISABLE_EXCEPTION_CATCHING=1 -s WARN_ON_UNDEFINED_SYMBOLS=1 -s CL_DEBUG=0 -s CL_GRAB_TRACE=0 -s CL_CHECK_VALID_OBJECT=0" }
+	end
+	-- EMSCRIPTEN PATCH --
 
 	if _ACTION == "xcode4" then
 			xcodebuildsettings

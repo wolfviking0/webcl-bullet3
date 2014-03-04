@@ -47,25 +47,34 @@
 
 		}
 
-if os.is("Windows") then
-	files {
-		"../../btgui/OpenGLWindow/Win32OpenGLWindow.cpp",
-		"../../btgui/OpenGLWindow/Win32OpenGLWindow.h",
-    "../../btgui/OpenGLWindow/Win32Window.cpp",
-    "../../btgui/OpenGLWindow/Win32Window.h",
-	}
-	end
-	if os.is("Linux") then 
-		links ("X11")
-		files{
-		"../../btgui/OpenGLWindow/X11OpenGLWindow.h",
-		"../../btgui/OpenGLWindow/X11OpenGLWindow.cpp"
+	if _OPTIONS["emscripten"] then
+		files
+		{
+			"../../btgui/OpenGLWindow/GlutOpenGLWindow.h",
+			"../../btgui/OpenGLWindow/GlutOpenGLWindow.cpp",
 		}
-	end
-	if os.is("MacOSX") then
-		links{"Cocoa.framework"}
-		files{
-		"../../btgui/OpenGLWindow/MacOpenGLWindow.mm",
-		"../../btgui/OpenGLWindow/MacOpenGLWindow.h",
+	else
+		if os.is("Windows") then
+		files {
+			"../../btgui/OpenGLWindow/Win32OpenGLWindow.cpp",
+			"../../btgui/OpenGLWindow/Win32OpenGLWindow.h",
+	    "../../btgui/OpenGLWindow/Win32Window.cpp",
+	    "../../btgui/OpenGLWindow/Win32Window.h",
 		}
+		end
+		if os.is("Linux") then 
+			links ("X11")
+			files{
+			"../../btgui/OpenGLWindow/X11OpenGLWindow.h",
+			"../../btgui/OpenGLWindow/X11OpenGLWindow.cpp"
+			}
+		end
+		if os.is("MacOSX") then
+			links{"Cocoa.framework"}
+			files{
+			"../../btgui/OpenGLWindow/MacOpenGLWindow.mm",
+			"../../btgui/OpenGLWindow/MacOpenGLWindow.h",
+			}
+		end
 	end
+	
