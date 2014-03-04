@@ -12,18 +12,6 @@
         act = _ACTION
     end
 
-    -- For emscripten set include
- 	-- includedirs { "$(EMSCRIPTEN)/system/include", "$(EMSCRIPTEN)/system/lib/libcxxabi/include" }
-	
-	-- configuration { "SharedLib" }
-	-- 	targetextension ".js"
-	
-	-- configuration { "StaticLib" }
-	-- 	targetextension ".js"
-
-	-- configuration { "ConsoleApp" }
-	-- 	targetextension ".html"
-
 	newoption
 	{
 		trigger = "midi",
@@ -75,6 +63,18 @@
 	configuration{}
 
 	postfix=""
+
+		-- EMSCRIPTEN PATCH --
+
+ 		includedirs { "$(EMSCRIPTEN)/system/include", "$(EMSCRIPTEN)/system/lib/libcxxabi/include" }
+		targetextension ".js"
+
+		configuration "Debug"
+			buildoptions { "-s CL_PRINT_TRACE=1 -s DISABLE_EXCEPTION_CATCHING=0 -s WARN_ON_UNDEFINED_SYMBOLS=1 -s CL_DEBUG=1 -s CL_GRAB_TRACE=1 -s CL_CHECK_VALID_OBJECT=1" }
+		configuration "Release"
+			buildoptions { "-s CL_PRINT_TRACE=0 -s DISABLE_EXCEPTION_CATCHING=1 -s WARN_ON_UNDEFINED_SYMBOLS=1 -s CL_DEBUG=0 -s CL_GRAB_TRACE=0 -s CL_CHECK_VALID_OBJECT=0" }
+
+		-- EMSCRIPTEN PATCH --
 
 	if _ACTION == "xcode4" then
 			xcodebuildsettings
