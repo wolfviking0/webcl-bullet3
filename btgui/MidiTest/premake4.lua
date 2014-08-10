@@ -26,8 +26,10 @@
 			defines {"__WINDOWS_MM__", "WIN32"}
 		end
 
-		if os.is("Linux") then 
-		end
+	if os.is("Linux") then 
+		defines {"__LINUX_ALSA__"}
+                links {"asound","pthread"}
+	end
 
 		if os.is("MacOSX") then
 			links{"CoreAudio.framework", "coreMIDI.framework", "Cocoa.framework"}

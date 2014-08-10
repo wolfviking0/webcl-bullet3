@@ -26,7 +26,16 @@
 		"../../btgui/Timing/b3Clock.h"
 
 		}
+<<<<<<< HEAD
 		if not _OPTIONS["emscripten"] then
 			if os.is("Linux") then links {"X11"} end
 			if os.is("MacOSX") then links{"Cocoa.framework"} end
 		end	
+=======
+		
+if os.is("Linux") then links {"X11","pthread"} end
+
+if os.is("MacOSX") then
+	links{"Cocoa.framework"}
+end
+>>>>>>> upstream/master

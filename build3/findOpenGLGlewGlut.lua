@@ -1,6 +1,17 @@
+	function findOpenGL()
+		configuration{}
+		if os.is("Linux") then
+			if os.isdir("/usr/include") and os.isfile("/usr/include/GL/gl.h") then return true
+			end
+			return false
+		end
+		--assume OpenGL is available on Mac OSX, Windows etc
+		return true
+	end
 
 	function initOpenGL()
 		configuration {}
+
 		if not _OPTIONS["emscripten"] then
 			configuration {"Windows"}
 				links {"opengl32","glu32"}
@@ -9,6 +20,7 @@
 			configuration {"not Windows", "not MacOSX"}
 				links {"GL"}
 		end
+
 		configuration{}
 	end
 
@@ -32,6 +44,7 @@
 			configuration {"Linux"}
 				links {"glut","GLU"}
 		end
+
 		configuration{}
 	end
 
@@ -46,7 +59,18 @@
 			files { projectRootDir .. "btgui/OpenGLWindow/GlewWindows/glew.c"}
 		end
 		if os.is("Linux") then
-			links{"GLEW"}
+			configuration{"Linux"}
+			if os.isdir("/usr/include") and os.isfile("/usr/include/GL/glew.h") then 
+				links {"GLEW"}
+			else
+			 	defines { "GLEW_STATIC"}
+				--,"GLEW_NO_GLU"}
+                        	includedirs {
+                                        projectRootDir .. "btgui/OpenGLWindow/GlewWindows"
+                        	}
+                        	files { projectRootDir .. "btgui/OpenGLWindow/GlewWindows/glew.c"}
+			end
+
 		end
 		configuration{}
 	end
