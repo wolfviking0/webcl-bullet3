@@ -23,11 +23,11 @@
 #include "Bullet3Common/b3Vector3.h"
 #include "Bullet3Common/b3Logging.h"
 
-#include "OpenGLTrueTypeFont/fontstash.h"
+#include "OpenGLWindow/fontstash.h"
 #include "OpenGLWindow/TwFonts.h"
-#include "OpenGLTrueTypeFont/opengl_fontstashcallbacks.h"
+#include "OpenGLWindow/opengl_fontstashcallbacks.h"
 #include <assert.h>
-#include "GLRenderToTexture.h"
+#include "OpenGLWindow/GLRenderToTexture.h"
 
 #ifdef _WIN32
     #define popen _popen
@@ -50,12 +50,26 @@ struct SimpleInternalData
 
 static SimpleOpenGL3App* gApp=0;
 
-void SimpleResizeCallback( float width, float height)
+static void SimpleResizeCallback( float width, float height)
 {
 	gApp->m_instancingRenderer->resize(width,height);
 	gApp->m_primRenderer->setScreenSize(width,height);
 
 }
+
+static void SimpleKeyboardCallback(int key, int state)
+{
+    if (key==B3G_ESCAPE && gApp && gApp->m_window)
+    {
+        gApp->m_window->setRequestExit();
+    } else
+    {
+        b3DefaultKeyboardCallback(key,state);
+    }
+}
+
+
+
 
 static GLuint BindFont(const CTexFont *_Font)
 {
@@ -137,8 +151,8 @@ SimpleOpenGL3App::SimpleOpenGL3App(	const char* title, int width,int height)
 
 	m_window->setMouseMoveCallback(b3DefaultMouseMoveCallback);
 	m_window->setMouseButtonCallback(b3DefaultMouseButtonCallback);
-	m_window->setKeyboardCallback(b3DefaultKeyboardCallback);
-	m_window->setWheelCallback(b3DefaultWheelCallback);
+    m_window->setKeyboardCallback(SimpleKeyboardCallback);
+    m_window->setWheelCallback(b3DefaultWheelCallback);
 	m_window->setResizeCallback(SimpleResizeCallback);
 
 	TwGenerateDefaultFonts();
@@ -227,8 +241,6 @@ void SimpleOpenGL3App::drawText( const char* txt, int posX, int posY)
 			//r.w = g_DefaultNormalFont->m_CharWidth[c]+extraSpacing;
 			int endX = startX+g_DefaultNormalFont->m_CharWidth[c];
 			int endY = startY+g_DefaultNormalFont->m_CharHeight;
-			//Gwen::Rect rect = r;
-			//Translate( rect );
 
 
 			float currentColor[]={0.2f,0.2,0.2f,1.f};
@@ -427,24 +439,22 @@ SimpleOpenGL3App::~SimpleOpenGL3App()
 }
 
 //#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "OpenGLTrueTypeFont/stb_image_write.h"
+#include "OpenGLWindow/stb_image_write.h"
 static void writeTextureToFile(int textureWidth, int textureHeight, const char* fileName, FILE* ffmpegVideo)
 {
 	int numComponents = 4;
 	//glPixelStorei(GL_PACK_ALIGNMENT,1);
-	GLuint err=glGetError();
-	assert(err==GL_NO_ERROR);
+	
+	b3Assert(glGetError()==GL_NO_ERROR);
 	//glReadBuffer(GL_BACK);//COLOR_ATTACHMENT0);
-	err=glGetError();
-	assert(err==GL_NO_ERROR);
+	
 	float* orgPixels = (float*)malloc(textureWidth*textureHeight*numComponents*4);
 	glReadPixels(0,0,textureWidth, textureHeight, GL_RGBA, GL_FLOAT, orgPixels);
 	//it is useful to have the actual float values for debugging purposes
 
 	//convert float->char
 	char* pixels = (char*)malloc(textureWidth*textureHeight*numComponents);
-	err=glGetError();
-	assert(err==GL_NO_ERROR);
+	assert(glGetError()==GL_NO_ERROR);
 
 	for (int j=0;j<textureHeight;j++)
 	{

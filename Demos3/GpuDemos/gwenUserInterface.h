@@ -5,7 +5,7 @@ struct GwenInternalData;
 
 typedef void (*b3ComboBoxCallback) (int combobox, const char* item);
 typedef void (*b3ToggleButtonCallback)(int button, int state);
-
+typedef void (*b3FileOpenCallback)();
 
 
 class GwenUserInterface
@@ -40,12 +40,16 @@ class GwenUserInterface
 		
 		void	setStatusBarMessage(const char* message, bool isLeft=true);
 
+        void    registerFileOpenCallback(b3FileOpenCallback callback);
+    
 		GwenInternalData* getInternalData()
 		{
 			return m_data;
 		}
 
 };
+
+
 
 #endif //_GWEN_USER_INTERFACE_H
 

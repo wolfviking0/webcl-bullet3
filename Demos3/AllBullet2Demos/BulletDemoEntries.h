@@ -11,14 +11,27 @@
 #include "../bullet2/FeatherstoneMultiBodyDemo/MultiDofDemo.h"
 
 #include "../bullet2/RagdollDemo/RagdollDemo.h"
-#include "../bullet2/LuaDemo/LuaDemo.h"
+#include "../bullet2/LuaDemo/LuaPhysicsSetup.h"
 #include "../bullet2/ChainDemo/ChainDemo.h"
 #include "../../Demos/CcdPhysicsDemo/CcdPhysicsSetup.h"
-#include "../../Demos/ConstraintDemo/ConstraintPhysicsSetup.h"
+#include "../bullet2/ConstraintDemo/ConstraintPhysicsSetup.h"
 #include "../ImportURDFDemo/ImportURDFSetup.h"
 #include "../ImportObjDemo/ImportObjSetup.h"
 #include "../ImportSTLDemo/ImportSTLSetup.h"
+#include "../../Demos/SerializeDemo/SerializeSetup.h"
+#include "../bullet2/MultiBodyDemo/TestJointTorqueSetup.h"
 
+static BulletDemoInterface* TestJointTorqueCreateFunc(SimpleOpenGL3App* app)
+{
+       CommonPhysicsSetup* physicsSetup = new TestJointTorqueSetup();
+       return new BasicDemo(app, physicsSetup);
+}
+
+static BulletDemoInterface* LuaDemoCreateFunc(SimpleOpenGL3App* app)
+{
+       CommonPhysicsSetup* physicsSetup = new LuaPhysicsSetup(app);
+       return new BasicDemo(app, physicsSetup);
+}
 
 static BulletDemoInterface* MyCcdPhysicsDemoCreateFunc(SimpleOpenGL3App* app)
 {
@@ -31,7 +44,11 @@ static BulletDemoInterface* MyKinematicObjectCreateFunc(SimpleOpenGL3App* app)
 	CommonPhysicsSetup* physicsSetup = new KinematicObjectSetup();
 	return new BasicDemo(app, physicsSetup);
 }
-
+static BulletDemoInterface* MySerializeCreateFunc(SimpleOpenGL3App* app)
+{
+    CommonPhysicsSetup* physicsSetup = new SerializeSetup();
+	return new BasicDemo(app, physicsSetup);
+}
 static BulletDemoInterface* MyConstraintCreateFunc(SimpleOpenGL3App* app)
 {
 	CommonPhysicsSetup* physicsSetup = new ConstraintPhysicsSetup();
@@ -65,7 +82,7 @@ struct BulletDemoEntry
 
 static BulletDemoEntry allDemos[]=
 {
-	
+
 	//{"emptydemo",EmptyBulletDemo::MyCreateFunc},
 	{0,"API Demos", 0},
 
@@ -73,12 +90,15 @@ static BulletDemoEntry allDemos[]=
 	{ 1, "CcdDemo", MyCcdPhysicsDemoCreateFunc },
 	{ 1, "Kinematic", MyKinematicObjectCreateFunc },
 	{ 1, "Constraints", MyConstraintCreateFunc },
+	{ 1, "LuaDemo",LuaDemoCreateFunc},
+
 	{0,"File Formats", 0},
 //@todo(erwincoumans)	{ 1, "bullet", MyImportSTLCreateFunc},
+    { 1, ".bullet",MySerializeCreateFunc},
 	{ 1, "Wavefront Obj", MyImportObjCreateFunc},
     { 1, "URDF", MyImportUrdfCreateFunc },
 	{ 1, "STL", MyImportSTLCreateFunc},
-    
+
 /*	{1,"ChainDemo",ChainDemo::MyCreateFunc},
 //	{0, "Stress tests", 0 },
 
@@ -88,14 +108,15 @@ static BulletDemoEntry allDemos[]=
 	{1,"LemkeHingeDemo",HingeDemo::LemkeCreateFunc},
 	{1,"InertiaHingeDemo",HingeDemo::InertiaCreateFunc},
 	{1,"ABMHingeDemo",HingeDemo::FeatherstoneCreateFunc},
-	
+
 	{1,"Ragdoll",RagDollDemo::MyCreateFunc},
 	*/
 	{ 0, "Multibody" ,0},
 	{1,"MultiBody1",FeatherstoneDemo1::MyCreateFunc},
 //	{"MultiBody2",FeatherstoneDemo2::MyCreateFunc},
 	{1,"MultiDofDemo",MultiDofDemo::MyCreateFunc},
-//	{"LuaDemo",LuaDemo::MyCreateFunc}
+	{1,"TestJointTorque",TestJointTorqueCreateFunc},
+
 
 };
 
@@ -118,10 +139,15 @@ static int loadCurrentDemoEntry(const char* startFileName)
 	FILE* f = fopen(startFileName,"r");
 	if (f)
 	{
-		fscanf(f,"%d",&currentEntry);
+		int result;
+		result = fscanf(f,"%d",&currentEntry);
+		if (result)
+		{
+			return currentEntry;
+		}
 		fclose(f);
 	}
-	return currentEntry;
+	return 0;
 };
 
 #endif//BULLET_DEMO_ENTRIES_H

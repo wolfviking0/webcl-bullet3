@@ -8,7 +8,7 @@ project "App_BasicDemoCustomOpenGL2"
 	  	"../../btgui"
 	  }
 		
-		defines { "DONT_USE_GLUT"}
+		defines { "DONT_USE_GLUT", "USE_OPENGL2"}
 		
 		initOpenGL()
 		initGlew()
@@ -32,7 +32,7 @@ project "App_BasicDemoCustomOpenGL2"
 			"../../Demos/OpenGL/GLDebugFont.cpp",
 			"../../Demos/OpenGL/GLDebugFont.h"			
 		 }
-if os.is("Linux") then links{"X11","pthread"} end
+if os.is("Linux") then initX11() end
 
 if os.is("MacOSX") then
                         links{"Cocoa.framework"}

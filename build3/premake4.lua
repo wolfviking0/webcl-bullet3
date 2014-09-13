@@ -1,6 +1,12 @@
 
   solution "0_Bullet3Solution"
 
+	local osversion = os.getversion()
+		print(string.format(" %d.%d.%d (%s)", 
+   		osversion.majorversion, osversion.minorversion, osversion.revision,
+   		osversion.description))
+	
+
 	-- Multithreaded compiling
 	if _ACTION == "vs2010" or _ACTION=="vs2008" then
 		buildoptions { "/MP"  }
@@ -12,6 +18,22 @@
         act = _ACTION
     end
 
+<<<<<<< HEAD
+=======
+	newoption
+        {
+                trigger = "force_dlopen_opengl",
+                description = "Dynamically load OpenGL (instead of static/dynamic linking)"
+        }
+
+	newoption
+        {
+                trigger = "force_dlopen_x11",
+                description = "Dynamically load OpenGL (instead of static/dynamic linking)"
+        }
+
+
+>>>>>>> upstream/master
 	newoption
 	{
 		trigger = "midi",
@@ -22,8 +44,8 @@
 
 	newoption
 	{
-		trigger = "bullet2gpu",
-		description = "Enable Bullet 2.x GPU using b3GpuDynamicsWorld bridge to Bullet 3.x"
+		trigger = "bullet2demos",
+		description = "Compile the Bullet 2 demos (Demo/Extra folder)"
 	}
 
 	newoption
@@ -34,8 +56,8 @@
 
 	newoption
 	{
-		trigger = "gtest",
-		description = "Enable unit tests using gtest"
+		trigger = "without-gtest",
+		description = "Disable unit tests using gtest"
 	}
 
 	configurations {"Release", "Debug"}
@@ -115,19 +137,17 @@
 
 	language "C++"
 
-	if _OPTIONS["gtest"] then
+	if not _OPTIONS["without-gtest"] then
 		include "../test/gtest-1.7.0"
 --		include "../test/hello_gtest"
 		include "../test/TestBullet3OpenCL"
 	end
 
-if findOpenGL() then
+if findOpenGL3() then
 	include "../Demos3/AllBullet2Demos"
 	include "../Demos3/GpuDemos"
 	include"../Demos3/BasicDemoConsole"
 	include"../Demos3/BasicDemoCustomOpenGL2"
-	
-	
 	
 --	include "../Demos3/CpuDemos"
 --	include "../Demos3/Wavefront"
@@ -144,6 +164,7 @@ if findOpenGL() then
     include "../btgui/Gwen"
     include "../btgui/GwenOpenGLTest"
 end
+
 
 --		include "../demo/gpudemo"
 if _OPTIONS["midi"] then
@@ -177,7 +198,6 @@ end
 --		include "../demo/gpu_initialize"
 --		include "../opencl/lds_bank_conflict"
 --		include "../opencl/reduce"
-		include "../btgui/OpenGLTrueTypeFont"
 --		include "../btgui/OpenGLWindow"
 --		include "../demo/ObjLoader"
 --		include "../test/b3DynamicBvhBroadphase"
@@ -188,7 +208,10 @@ end
 		include "../test/enet/client"
 	end
 
-
-	if _OPTIONS["bullet2gpu"] then
+	if _OPTIONS["bullet2demos"] then
+		include "../Extras"
+		if findOpenGL() then
+        		include "../Demos"
+		end
 	end
 

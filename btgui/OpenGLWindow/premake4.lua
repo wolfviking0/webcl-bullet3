@@ -17,11 +17,15 @@
 		--}
 		
 		files {
-			"**.cpp",
-			"**.h",
+			"*.cpp",
+			"*.h",
+			"OpenGLWindow/*.c",
+			"OpenGLWindow/*.h",
+			"OpenGLWindow/GL/*.h"
 		}
-
+  
 		if _OPTIONS["emscripten"] then
+      
 			excludes {
 				"Win32OpenGLWindow.cpp",
 	      		"Win32OpenGLWindow.h",
@@ -44,6 +48,9 @@
 	      	"Win32Window.h",
 				}
 			end
+      if os.is("Linux") then
+			  initX11()
+		  end
 			if not os.is("Linux") then
 				excludes {
 					"X11OpenGLWindow.cpp",

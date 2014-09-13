@@ -16,8 +16,8 @@ subject to the following restrictions:
 
 ///todo: make this configurable in the gui
 bool useShadowMap=true;//false;//true;
-float shadowMapWidth=8192;
-float shadowMapHeight=8192;
+int shadowMapWidth=8192;
+int shadowMapHeight=8192;
 float shadowMapWorldSize=100;
 float WHEEL_MULTIPLIER=0.01f;
 float MOUSE_MOVE_MULTIPLIER = 0.4f;
@@ -1245,7 +1245,7 @@ void GLInstancingRenderer::getMouseDirection(float* dir, int x, int y)
 
 
 //#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "OpenGLTrueTypeFont/stb_image_write.h"
+#include "stb_image_write.h"
 void writeTextureToPng(int textureWidth, int textureHeight, const char* fileName, int numComponents)
 {
 

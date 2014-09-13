@@ -5,6 +5,7 @@
 	flags {"Unicode"}
 	
 	defines { "GWEN_COMPILE_STATIC" , "_HAS_EXCEPTIONS=0", "_STATIC_CPPLIB" }
+	defines { "DONT_USE_GLUT"}
 	
 	targetdir "../../bin"
 	
@@ -24,7 +25,7 @@
 	
 	
 	files {
-		"../FontFiles/OpenSans.cpp",
+		"../OpenGLWindow/OpenSans.cpp",
 		"../OpenGLWindow/TwFonts.cpp",
 		"../OpenGLWindow/TwFonts.h",
 		"../OpenGLWindow/LoadShader.cpp",
@@ -32,20 +33,36 @@
 		"../OpenGLWindow/GLPrimitiveRenderer.cpp",
 		"../OpenGLWindow/GLPrimitiveRenderer.h",				
 		"../OpenGLWindow/GwenOpenGL3CoreRenderer.h",
-		"../OpenGLTrueTypeFont/fontstash.cpp",
-		"../OpenGLTrueTypeFont/fontstash.h",
-		"../OpenGLTrueTypeFont/opengl_fontstashcallbacks.cpp",
- 		"../OpenGLTrueTypeFont/opengl_fontstashcallbacks.h",
+		"../OpenGLWindow/fontstash.cpp",
+		"../OpenGLWindow/fontstash.h",
+		"../OpenGLWindow/opengl_fontstashcallbacks.cpp",
+ 		"../OpenGLWindow/opengl_fontstashcallbacks.h",
 		"../../btgui/Timing/b3Clock.cpp",
 		"../../btgui/Timing/b3Clock.h",
 		"**.cpp",
 		"**.h",
 	}
+<<<<<<< HEAD
 	if _OPTIONS["emscripten"] then
 		files
 		{
 			"../../btgui/OpenGLWindow/GlutOpenGLWindow.h",
 			"../../btgui/OpenGLWindow/GlutOpenGLWindow.cpp",
+=======
+	if os.is("Windows") then
+	files {
+		"../OpenGLWindow/Win32OpenGLWindow.cpp",
+                "../OpenGLWindow/Win32OpenGLWindow.h",
+                "../OpenGLWindow/Win32Window.cpp",
+                "../OpenGLWindow/Win32Window.h",
+	}
+	end
+	if os.is("Linux") then 
+		initX11()
+		files{
+		"../OpenGLWindow/X11OpenGLWindow.h",
+		"../OpenGLWindow/X11OpenGLWindow.cpp"
+>>>>>>> upstream/master
 		}
 	else
 		if os.is("Windows") then
