@@ -3,10 +3,9 @@
 
 #include "LinearMath/btVector3.h"
 
-#include "../../AllBullet2Demos/BulletDemoInterface.h"
-
+#include "BulletDemoInterface.h"
 #include "OpenGLWindow/b3gWindowInterface.h"
-#include "../../../Demos/CommonPhysicsSetup.h"
+#include "CommonPhysicsSetup.h"
 
 
 class Bullet2RigidBodyDemo : public BulletDemoInterface
@@ -20,9 +19,9 @@ public:
 
 public:
 
-	struct SimpleOpenGL3App* m_glApp;
+	struct CommonGraphicsApp* m_glApp;
 
-	Bullet2RigidBodyDemo(SimpleOpenGL3App* app, CommonPhysicsSetup* physicsSetup);
+	Bullet2RigidBodyDemo(CommonGraphicsApp* app, CommonPhysicsSetup* physicsSetup);
 	virtual void initPhysics();
 	virtual void exitPhysics();
 	virtual void	renderScene();

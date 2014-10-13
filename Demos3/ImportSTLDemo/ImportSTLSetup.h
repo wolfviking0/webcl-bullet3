@@ -2,13 +2,13 @@
 #define IMPORT_STL_SETUP_H
 
 
-#include "../../Demos/CommonRigidBodySetup.h"
+#include "Bullet3AppSupport/CommonRigidBodySetup.h"
 
 class ImportSTLDemo : public CommonRigidBodySetup
 {
-	struct SimpleOpenGL3App* m_app;
+	struct CommonGraphicsApp* m_app;
 public:
-    ImportSTLDemo(SimpleOpenGL3App* app);
+    ImportSTLDemo(CommonGraphicsApp* app);
     virtual ~ImportSTLDemo();
     
 	virtual void initPhysics(GraphicsPhysicsBridge& gfxBridge);

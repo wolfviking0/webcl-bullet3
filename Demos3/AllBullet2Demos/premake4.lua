@@ -13,7 +13,7 @@
                 }
 
 			
-		links{"gwen", "OpenGL_Window","BulletDynamics","BulletCollision","LinearMath","Bullet3Common","lua-5.2.3"}
+		links{"Bullet3AppSupport","gwen", "OpenGL_Window","BulletDynamics","BulletCollision","LinearMath","Bullet3Common","lua-5.2.3"}
 		initOpenGL()
 		initGlew()
 
@@ -39,8 +39,6 @@
 		files {
 		"**.cpp",
 		"**.h",
-		"../bullet2/BasicDemo/Bullet2RigidBodyDemo.cpp",
-		"../bullet2/BasicDemo/Bullet2RigidBodyDemo.h",
 		"../bullet2/LuaDemo/LuaPhysicsSetup.cpp",
 		"../bullet2/LuaDemo/LuaPhysicsSetup.h",
 		"../bullet2/MultiBodyDemo/TestJointTorqueSetup.cpp",
@@ -62,6 +60,7 @@
   		"../bullet2/ConstraintDemo/ConstraintPhysicsSetup.h",
 		"../ImportURDFDemo/ImportURDFSetup.cpp",
 		"../ImportObjDemo/ImportObjSetup.cpp",
+		"../ImportObjDemo/Wavefront2GLInstanceGraphicsShape.cpp",
 	 	"../ImportSTLDemo/ImportSTLSetup.cpp",	
 		"../Wavefront/tiny_obj_loader.cpp",
 		"../Wavefront/tiny_obj_loader.h",	
@@ -102,10 +101,6 @@
 --		"../bullet2/LuaDemo/LuaDemo.h",
 		
 		
-		"../../btgui/Timing/b3Clock.cpp",
-		"../../btgui/Timing/b3Clock.h",
-		"../GpuDemos/gwenUserInterface.cpp",
-		"../GpuDemos/gwenUserInterface.h"
 		}
 
 	if not _OPTIONS["emscripten"] then
