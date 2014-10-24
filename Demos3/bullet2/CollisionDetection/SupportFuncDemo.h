@@ -5,6 +5,8 @@
 #include "OpenGLWindow/CommonGraphicsApp.h"
 #include "BulletCollision/CollisionShapes/btSphereShape.h"
 
+
+///quick demo showing the support map function (localGetSupportingVertex)
 class MySupportFuncDemo : public BulletDemoInterface
 {
     CommonGraphicsApp* m_app;
@@ -20,6 +22,7 @@ public:
     m_x(0),
     m_y(0)
     {
+		m_app->setUpAxis(1);
         m_sphere = new btSphereShape(1);
         {
             int boxId = m_app->registerCubeShape(10,0.1,10);
@@ -96,15 +99,15 @@ public:
     }
     virtual bool	mouseMoveCallback(float x,float y)
     {
-        
+		return false;   
     }
     virtual bool	mouseButtonCallback(int button, int state, float x, float y)
     {
-        
+        return false;   
     }
     virtual bool	keyboardCallback(int key, int state)
     {
-        
+        return false;   
     }
     
 };
